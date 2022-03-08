@@ -1,0 +1,46 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+#      globalcors:
+#      '[/**]':
+#        allowed-origins: "*"
+#        allowed-headers: "*"
+#        allow-credentials: true
+#        allowed-methods:
+#          - GET
+#          - POST
+#          - DELETE
+#          - PUT
+#          - OPTION
+      routes:
+        - id: url-proxy-baidu
+          uri: https://www.baidu.com
+          filters:
+            - RewritePath=/baidu,/
+          predicates:
+            - Path=/baidu
+        - id: serviceProvider-router
+          uri: lb://serviceProvider
+          filters:
+            - RewritePath=/serviceProvider,/
+          predicates:
+            - Path=/serviceProvider/**
+        - id: serviceConsumer-router
+          uri: lb://serviceConsumer
+          filters:
+            - RewritePath=/serviceConsumer,/
+          predicates:
+            - Path=/serviceConsumer/**
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    #client注册自己时的心跳，30/3
+    lease-renewal-interval-in-seconds: 10
+    #Eureka在最后一次接受到当前client的多久之后可以删除本节点 30/3*2
+    lease-expiration-duration-in-seconds: 20
