@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-commons'
+	testImplementation 'junit:junit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

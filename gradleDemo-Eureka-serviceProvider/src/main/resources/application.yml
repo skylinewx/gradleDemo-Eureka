@@ -8,3 +8,7 @@ eureka:
     hostname: localhost
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    #client注册自己时的心跳，30/3
+    lease-renewal-interval-in-seconds: 10
+    #Eureka在最后一次接受到当前client的多久之后可以删除本节点 30/3*2
+    lease-expiration-duration-in-seconds: 20
