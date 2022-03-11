@@ -1,9 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.6'
+	id 'org.springframework.boot' version '2.6.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.wangxing'
 version = '1.0.0'
@@ -16,20 +15,35 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', '2020.0.5')
+	set('aliCloudVersion', "2021.1")
+	set('springBootAdminVersion', "2.6.2")
+	set('springCloudVersion', "2021.0.1")
+}
+
+processResources {
+	filesMatching('application.yml') {
+		expand(project.properties)
+	}
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-commons'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+	implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation "org.springframework.boot:spring-boot-starter-actuator"
+	implementation "org.springframework.amqp:spring-rabbit"
+	implementation 'com.googlecode.aviator:aviator:5.3.0'
 	testImplementation 'junit:junit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
 	imports {
+		mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${aliCloudVersion}"
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
 	}
 }

@@ -15,7 +15,7 @@ repositories {
 }
 
 ext {
-    set('aliCloudVersion', "2021.1")
+    set('springBootAdminVersion', "2.6.2")
     set('springCloudVersion', "2021.0.1")
 }
 
@@ -27,19 +27,14 @@ processResources {
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.amqp:spring-rabbit"
+    implementation 'de.codecentric:spring-boot-admin-starter-server'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
     imports {
-        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${aliCloudVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
     }
 }
 

@@ -1,16 +1,52 @@
-server:
-  port: 8001
-#  servlet:
-#    context-path: /serviceConsumer
 spring:
-  application:
-    name: serviceConsumer
+  cloud:
+    sentinel:
+      transport:
+        port: 8011
+        dashboard: localhost:8080
+  rabbitmq:
+    host: 10.2.41.73
+    username: bd_test
+    password: bd_test
+    virtual-host: budget_test1
+    listener:
+      direct:
+        retry:
+          enabled: true
+      simple:
+        retry:
+          enabled: true
+  zipkin:
+#    base-url: http://localhost:9411
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      probability: 1
+logging:
+  level:
+    root: debug
 eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
-    #client注册自己时的心跳，30/3
+    instance-id: \${spring.cloud.client.ip-address}:\${spring.application.name}:\${server.port}
     lease-renewal-interval-in-seconds: 10
-    #Eureka在最后一次接受到当前client的多久之后可以删除本节点 30/3*2
     lease-expiration-duration-in-seconds: 20
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+info:
+  versin: ${version}
+  name: ${rootProject.name}
+  group: ${group}
+  author: wangxing
+  blog: https://wangxing.blog.csdn.net
+feign:
+  sentinel:
+    enabled: true

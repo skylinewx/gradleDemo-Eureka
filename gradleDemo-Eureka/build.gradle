@@ -1,9 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.6'
+	id 'org.springframework.boot' version '2.6.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.wangxing'
 version = '1.0.0'
@@ -16,12 +15,21 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', '2020.0.5')
+	set('springCloudVersion', "2021.0.1")
+	set('springBootAdminVersion', "2.6.2")
+}
+
+processResources {
+	filesMatching('application.yml') {
+		expand(project.properties)
+	}
 }
 
 dependencies {
+	implementation 'de.codecentric:spring-boot-admin-starter-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
 	testImplementation 'junit:junit'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -29,5 +37,6 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
 	}
 }

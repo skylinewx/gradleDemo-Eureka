@@ -1,8 +1,7 @@
 package com.wangxing.controller;
 
-import com.wangxing.service.WelcomeClient;
+import com.wangxing.service.WelcomeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/welcome")
 public class WelcomeController {
 
+	private final WelcomeService welcomeService;
+
 	@Autowired
-	private WelcomeClient helloService;
-	
+	public WelcomeController(WelcomeService welcomeService) {
+		this.welcomeService = welcomeService;
+	}
+
 	@RequestMapping("/info")
 	public String info() {
-		return helloService.info();
+		return welcomeService.info();
 	}
 }
